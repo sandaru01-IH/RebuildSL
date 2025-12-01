@@ -5,6 +5,8 @@ import { MapContainer, TileLayer, GeoJSON, Popup, Tooltip, useMap } from 'react-
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { BarChart3, Users, Home, DollarSign, RefreshCw, Menu, X, Info, Moon, Sun } from 'lucide-react'
+import { Feature, Geometry } from 'geojson'
+import { PathOptions } from 'leaflet'
 
 // Fix for default marker icons in Next.js
 if (typeof window !== 'undefined') {
@@ -265,7 +267,8 @@ export default function DamageMap() {
   }, [aggregatedData, normalizeGNDName])
 
   // Memoize style function to ensure it updates when aggregatedData changes
-  const getStyle = useCallback((feature: GNDFeature | undefined) => {
+  // Use Leaflet's expected type: Feature<Geometry, any> instead of GNDFeature
+  const getStyle = useCallback((feature?: Feature<Geometry, any>): PathOptions => {
     if (!feature) {
       return {
         fillColor: '#666',
@@ -276,7 +279,8 @@ export default function DamageMap() {
       }
     }
     
-    const { data } = findDataForFeature(feature)
+    // Cast to GNDFeature for findDataForFeature since we know our GeoJSON only has Polygon/MultiPolygon
+    const { data } = findDataForFeature(feature as any as GNDFeature)
     const severity = data?.severity
 
     return {
@@ -289,8 +293,10 @@ export default function DamageMap() {
   }, [findDataForFeature])
 
   // Memoize onEachFeature to ensure it updates when aggregatedData changes
-  const onEachFeature = useCallback((feature: GNDFeature, layer: L.Layer) => {
-    const { data, name, code, nameKey } = findDataForFeature(feature)
+  // Use Leaflet's expected type: Feature<Geometry, any> instead of GNDFeature
+  const onEachFeature = useCallback((feature: Feature<Geometry, any>, layer: L.Layer) => {
+    // Cast to GNDFeature for findDataForFeature since we know our GeoJSON only has Polygon/MultiPolygon
+    const { data, name, code, nameKey } = findDataForFeature(feature as any as GNDFeature)
     
     // Debug logging for matched and unmatched features
     if (Object.keys(aggregatedData).length > 0) {
@@ -606,7 +612,7 @@ export default function DamageMap() {
           <GeoJSON
             key={`gnd-${refreshKey}`}
             data={gndGeoJSON as any}
-            style={getStyle}
+            style={getStyle as any}
             onEachFeature={onEachFeature}
           />
         )}
