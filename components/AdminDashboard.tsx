@@ -23,29 +23,6 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [refreshing, setRefreshing] = useState(false)
   const itemsPerPage = 50
 
-  useEffect(() => {
-    loadReports()
-  }, [page, sortBy, sortOrder, gndFilter, statusFilter])
-
-  // Auto-refresh every 10 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      loadReports(true)
-    }, 10000)
-    return () => clearInterval(interval)
-  }, [page, sortBy, sortOrder, gndFilter, statusFilter])
-
-  // Listen for form submission events
-  useEffect(() => {
-    const handleReportSubmitted = () => {
-      loadReports(true)
-    }
-    window.addEventListener('damageReportSubmitted', handleReportSubmitted)
-    return () => {
-      window.removeEventListener('damageReportSubmitted', handleReportSubmitted)
-    }
-  }, [])
-
   const loadReports = async (showRefreshing = false) => {
     if (showRefreshing) {
       setRefreshing(true)
@@ -83,6 +60,32 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
       setRefreshing(false)
     }
   }
+
+  useEffect(() => {
+    loadReports()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, sortBy, sortOrder, gndFilter, statusFilter])
+
+  // Auto-refresh every 10 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      loadReports(true)
+    }, 10000)
+    return () => clearInterval(interval)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, sortBy, sortOrder, gndFilter, statusFilter])
+
+  // Listen for form submission events
+  useEffect(() => {
+    const handleReportSubmitted = () => {
+      loadReports(true)
+    }
+    window.addEventListener('damageReportSubmitted', handleReportSubmitted)
+    return () => {
+      window.removeEventListener('damageReportSubmitted', handleReportSubmitted)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     // Client-side search filtering

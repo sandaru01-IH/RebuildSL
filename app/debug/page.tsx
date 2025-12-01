@@ -282,7 +282,7 @@ export default function DebugPage() {
 
           {tests.length === 0 && !running && (
             <div className="text-center py-12 text-gray-500">
-              Click "Run All Tests" to start diagnostics
+              Click &quot;Run All Tests&quot; to start diagnostics
             </div>
           )}
         </div>

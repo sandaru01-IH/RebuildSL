@@ -259,7 +259,7 @@ export default function DamageMap() {
     }
     
     return { data, name, code, nameKey }
-  }, [aggregatedData, normalizeGNDName, mapTheme])
+  }, [aggregatedData, normalizeGNDName])
 
   // Memoize style function to ensure it updates when aggregatedData changes
   const getStyle = useCallback((feature: GNDFeature) => {
@@ -273,7 +273,7 @@ export default function DamageMap() {
       weight: severity ? 2 : 1,
       opacity: 0.9
     }
-  }, [aggregatedData, findDataForFeature])
+  }, [findDataForFeature])
 
   // Memoize onEachFeature to ensure it updates when aggregatedData changes
   const onEachFeature = useCallback((feature: GNDFeature, layer: L.Layer) => {

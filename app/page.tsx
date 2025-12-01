@@ -168,7 +168,7 @@ export default function HomePage() {
             Help Rebuild Sri Lanka
           </h2>
           <p className="text-xl mb-8 text-primary-100">
-            Every report helps us better understand the damage and allocate resources where they're needed most.
+            Every report helps us better understand the damage and allocate resources where they&apos;re needed most.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
