@@ -1,0 +1,213 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 255, 255, 255;
+  --sidebar-width: 256px; /* Default expanded width for desktop */
+}
+
+@media (max-width: 767px) {
+  :root {
+    --sidebar-width: 0px; /* Mobile: sidebar hidden */
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+/* Leaflet map styles */
+@import 'leaflet/dist/leaflet.css';
+
+/* Optimize for low bandwidth - reduce animations */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Loading states */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Ensure form inputs have visible text */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="tel"],
+textarea,
+select {
+  color: #111827 !important; /* text-gray-900 */
+  background-color: #ffffff !important;
+}
+
+input[type="text"]::placeholder,
+input[type="number"]::placeholder,
+input[type="email"]::placeholder,
+input[type="tel"]::placeholder,
+textarea::placeholder {
+  color: #9ca3af !important; /* text-gray-400 */
+}
+
+/* Leaflet tooltip styling */
+.leaflet-tooltip {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid #333 !important;
+  color: #333 !important;
+  font-weight: 500 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+.leaflet-tooltip-top:before {
+  border-top-color: #333 !important;
+}
+
+.leaflet-tooltip-bottom:before {
+  border-bottom-color: #333 !important;
+}
+
+.leaflet-tooltip-left:before {
+  border-left-color: #333 !important;
+}
+
+.leaflet-tooltip-right:before {
+  border-right-color: #333 !important;
+}
+
+/* Dark map theme */
+.dark-map .leaflet-container {
+  background-color: #1a1a1a !important;
+}
+
+.dark-map .leaflet-popup-content-wrapper {
+  background-color: #1f2937 !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+}
+
+.dark-map .leaflet-popup-tip {
+  background-color: #1f2937 !important;
+}
+
+.dark-map .leaflet-popup-close-button {
+  color: #ffffff !important;
+}
+
+.dark-map .leaflet-tooltip {
+  background-color: rgba(31, 41, 55, 0.95) !important;
+  border: 1px solid #4b5563 !important;
+  color: #ffffff !important;
+  font-weight: 500 !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+.dark-map .leaflet-tooltip-top:before {
+  border-top-color: #4b5563 !important;
+}
+
+.dark-map .leaflet-tooltip-bottom:before {
+  border-bottom-color: #4b5563 !important;
+}
+
+.dark-map .leaflet-tooltip-left:before {
+  border-left-color: #4b5563 !important;
+}
+
+.dark-map .leaflet-tooltip-right:before {
+  border-right-color: #4b5563 !important;
+}
+
+.dark-map .leaflet-control {
+  background-color: rgba(31, 41, 55, 0.9) !important;
+  border: 1px solid #4b5563 !important;
+}
+
+.dark-map .leaflet-control a {
+  color: #ffffff !important;
+  background-color: rgba(31, 41, 55, 0.9) !important;
+}
+
+.dark-map .leaflet-control a:hover {
+  background-color: rgba(55, 65, 81, 0.9) !important;
+}
+
+/* Light map theme */
+.light-map .leaflet-container {
+  background-color: #f3f4f6 !important;
+}
+
+.light-map .leaflet-popup-content-wrapper {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.light-map .leaflet-popup-tip {
+  background-color: #ffffff !important;
+}
+
+.light-map .leaflet-popup-close-button {
+  color: #6b7280 !important;
+}
+
+.light-map .leaflet-tooltip {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid #d1d5db !important;
+  color: #111827 !important;
+  font-weight: 500 !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+.light-map .leaflet-tooltip-top:before {
+  border-top-color: #d1d5db !important;
+}
+
+.light-map .leaflet-tooltip-bottom:before {
+  border-bottom-color: #d1d5db !important;
+}
+
+.light-map .leaflet-tooltip-left:before {
+  border-left-color: #d1d5db !important;
+}
+
+.light-map .leaflet-tooltip-right:before {
+  border-right-color: #d1d5db !important;
+}
+
+.light-map .leaflet-control {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid #d1d5db !important;
+}
+
+.light-map .leaflet-control a {
+  color: #374151 !important;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.light-map .leaflet-control a:hover {
+  background-color: rgba(249, 250, 251, 0.9) !important;
+}
+

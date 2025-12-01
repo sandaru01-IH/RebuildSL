@@ -1,0 +1,25 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "gnd_code": "12345",
+        "gnd_name": "Example GND"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [80.0, 7.0],
+            [80.1, 7.0],
+            [80.1, 7.1],
+            [80.0, 7.1],
+            [80.0, 7.0]
+          ]
+        ]
+      }
+    }
+  ]
+}
+
