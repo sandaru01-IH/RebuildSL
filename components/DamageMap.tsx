@@ -265,7 +265,17 @@ export default function DamageMap() {
   }, [aggregatedData, normalizeGNDName])
 
   // Memoize style function to ensure it updates when aggregatedData changes
-  const getStyle = useCallback((feature: GNDFeature) => {
+  const getStyle = useCallback((feature: GNDFeature | undefined) => {
+    if (!feature) {
+      return {
+        fillColor: '#666',
+        fillOpacity: 0.15,
+        color: '#666',
+        weight: 1,
+        opacity: 0.9
+      }
+    }
+    
     const { data } = findDataForFeature(feature)
     const severity = data?.severity
 
