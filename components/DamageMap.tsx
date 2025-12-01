@@ -16,17 +16,19 @@ if (typeof window !== 'undefined') {
   })
 }
 
+type AggregatedDataItem = {
+  code: string
+  name: string
+  count: number
+  totalDamage: number
+  avgDamageLevel: number
+  totalAffected: number
+  propertyTypes: Record<string, number>
+  severity: 'low' | 'medium' | 'high'
+}
+
 interface AggregatedData {
-  [gndCode: string]: {
-    code: string
-    name: string
-    count: number
-    totalDamage: number
-    avgDamageLevel: number
-    totalAffected: number
-    propertyTypes: Record<string, number>
-    severity: 'low' | 'medium' | 'high'
-  }
+  [gndCode: string]: AggregatedDataItem
 }
 
 interface GNDFeature {
@@ -247,15 +249,16 @@ export default function DamageMap() {
     const nameKey = normalizeGNDName(name)
     
     // PRIMARY MATCH: Find by normalized name key (this is how aggregation works)
-    let data = aggregatedData[nameKey] || null
+    let data: AggregatedDataItem | null = aggregatedData[nameKey] || null
     
     // FALLBACK MATCH: If not found by name, try to find by code
     if (!data && code) {
       const codeStr = String(code).trim()
-      data = Object.values(aggregatedData).find((item: any) => {
+      const found = Object.values(aggregatedData).find((item: any) => {
         const itemCode = String(item.code || '').trim()
         return itemCode === codeStr || itemCode.toLowerCase() === codeStr.toLowerCase()
-      }) || null
+      })
+      data = found || null
     }
     
     return { data, name, code, nameKey }
