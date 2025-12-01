@@ -3,7 +3,6 @@ import { createSupabaseAdminClient } from '@/lib/supabase/server'
 import { getAdminUser } from '@/lib/utils/auth'
 import Papa from 'papaparse'
 import * as XLSX from 'xlsx'
-import * as geojson from 'geojson'
 
 export async function GET(request: NextRequest) {
   try {
@@ -58,14 +57,31 @@ export async function GET(request: NextRequest) {
           if (match) {
             const lng = parseFloat(match[1])
             const lat = parseFloat(match[2])
-            return geojson.parse(
-              { lat, lng },
-              { Point: ['lat', 'lng'] }
-            )
+            return {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [lng, lat] // GeoJSON uses [longitude, latitude]
+              },
+              properties: {
+                id: report.id,
+                gnd_code: report.gnd_code,
+                gnd_name: report.gnd_name,
+                damage_level: report.damage_level,
+                estimated_damage_lkr: report.estimated_damage_lkr,
+                affected_residents: report.affected_residents,
+                property_type: report.property_type,
+                status: report.status,
+                created_at: report.created_at,
+                description: report.description,
+                contact_name: report.contact_name,
+                contact_phone: report.contact_phone
+              }
+            }
           }
         }
         return null
-      }).filter(Boolean)
+      }).filter((feature): feature is NonNullable<typeof feature> => feature !== null)
 
       const geoJSON = {
         type: 'FeatureCollection',
