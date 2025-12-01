@@ -185,7 +185,12 @@ export default function DamageReportForm() {
     setErrors({})
     setSubmitStatus('idle')
 
-    const validationErrors = validateDamageReport(formData)
+    // Convert null to undefined for location to match validation function type
+    const validationData = {
+      ...formData,
+      location: formData.location ?? undefined
+    }
+    const validationErrors = validateDamageReport(validationData)
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors)
       return
